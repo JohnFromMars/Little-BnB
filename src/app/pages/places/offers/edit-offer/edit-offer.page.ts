@@ -20,6 +20,7 @@ export class EditOfferPage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paraMap => {
+      // if there is no id provided then go back to offers page
       if (!paraMap.has('placeId')) {
         this.navController.navigateBack('/places/tabs/offers');
         return;

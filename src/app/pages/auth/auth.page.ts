@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
+import { timeout } from 'q';
 
 @Component({
   selector: 'app-auth',
@@ -11,15 +12,34 @@ export class AuthPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private navController: NavController
+    private navController: NavController,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
   }
 
   onLogin() {
-    this.authService.loging();
-    this.navController.navigateForward('/places/tabs/discover');
+    // Use loading controller to block any action from user
+    this.loadingController.create(
+      {
+        keyboardClose: true,
+        message: 'Login in...',
+
+      }).then(loadingEl => {
+        // present loading controller and login
+        loadingEl.present();
+        this.authService.loging();
+
+        setTimeout(() => {
+          loadingEl.dismiss();
+          // redirect to discover page
+          this.navController.navigateForward('/places/tabs/discover');
+
+        }, 1500);
+
+      });
   }
+
 
 }
