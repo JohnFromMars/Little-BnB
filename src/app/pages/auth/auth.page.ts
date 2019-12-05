@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavController, LoadingController } from '@ionic/angular';
 import { timeout } from 'q';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -19,6 +20,13 @@ export class AuthPage implements OnInit {
   ngOnInit() {
   }
 
+  onSubmit(loginForm: NgForm) {
+    console.log(loginForm);
+  }
+
+  /**
+   * On login button
+   */
   onLogin() {
     // Use loading controller to block any action from user
     this.loadingController.create(

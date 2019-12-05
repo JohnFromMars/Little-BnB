@@ -27,14 +27,7 @@
             </ion-item-option>
           </ion-item-options>
           <!-- item detail  -->
-          <ion-item>
-            <ion-avatar slot='start'>
-              <ion-img [src]='item.imgUrl'></ion-img>
-            </ion-avatar>
-            <ion-label>
-              <h2>{{item.title}}</h2>
-            </ion-label>
-          </ion-item>
+          <app-offer-item [item]='item'></app-offer-item>
           <!-- end of repeated items  -->
         </ion-item-sliding>
 
