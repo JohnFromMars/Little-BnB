@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./auth.page.scss'],
 })
 export class AuthPage implements OnInit {
+  isLoging = true;
 
   constructor(
     private authService: AuthService,
@@ -49,5 +50,11 @@ export class AuthPage implements OnInit {
       });
   }
 
+  /**
+   * On SwitchAuthMode button, change the auth mode
+   */
+  onSwitchAuthMode() {
+    this.isLoging = !this.isLoging;
+  }
 
 }

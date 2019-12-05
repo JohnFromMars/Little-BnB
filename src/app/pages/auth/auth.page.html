@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Authenticate</ion-title>
+    <ion-title>{{isLoging ? 'Athentiction':'Sign up' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -40,7 +40,9 @@
               </ion-item>
 
               <!-- sign up button  -->
-              <ion-button type="button" fill="clear" expand="full" color="primary">Sign up</ion-button>
+              <ion-button type="button" fill="clear" expand="full" color="primary" (click)="onSwitchAuthMode()">Switch
+                to {{isLoging ? 'sign up': 'login'}}</ion-button>
+
               <!-- login sumit button -->
               <!-- disable when the input fieds are invalid  -->
               <ion-button [disabled]="!loginForm.valid" type="submit" margin color='primary' expand="block"

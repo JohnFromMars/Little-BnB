@@ -73,7 +73,7 @@ export class PlaceDetailPage implements OnInit {
       return modal.onDidDismiss();
     }).then(
       resultData => {
-        console.log(resultData.data + " " + resultData.role);
+        console.log(resultData.data + ' ' + resultData.role);
       });
   }
 }
