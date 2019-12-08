@@ -3,14 +3,94 @@
     <ion-button fill='clear' slot='start'>
       <ion-back-button [defaultHref]="['/', 'places', 'tabs', 'offers']"></ion-back-button>
     </ion-button>
-    <ion-title>Edit Offer</ion-title>
+    <ion-title>Edit {{offer.title}}</ion-title>
+    <!-- check mark button  -->
+    <ion-buttons slot="primary">
+      <ion-button (click)="onSubmitOffer()" [disabled]="!form.valid">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-label>
-    <h2>
-      {{offer.title}}
-    </h2>
-  </ion-label>
+  <ion-grid>
+    <form [formGroup]="form">
+      <!-- row for title input field  -->
+      <ion-row>
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Title</ion-label>
+            <ion-input required type="text" autocomplete autocorrect formControlName="title"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- error message for title input field  -->
+      <!-- invalid input and the filed has been touched then show the error message -->
+      <ion-row *ngIf="!form.get('title').valid && form.get('title').touched">
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item lines="none">
+            <ion-label>Must enter a title</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- row for descriptioon  -->
+      <ion-row>
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-textarea rows="3" formControlName="description"></ion-textarea>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- error message for description input field  -->
+      <!-- invalid input and the filed has been touched then show the error message -->
+      <ion-row *ngIf="!form.get('description').valid && form.get('description').touched">
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item lines="none">
+            <ion-label>Must be between 1 to 130 characters</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- row for price input field  -->
+      <ion-row>
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input required type="number" formControlName="price"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- error message for price input field  -->
+      <!-- invalid input and the filed has been touched then show the error message -->
+      <ion-row *ngIf="!form.get('price').valid && form.get('price').touched">
+        <ion-col size=12 size-sm="6" offset-sm="3">
+          <ion-item lines="none">
+            <ion-label>Must greater than 0</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <!-- available from and to date picker  -->
+      <ion-row>
+        <ion-col size-sm="3" offset-sm="3">
+          <ion-item>
+            <ion-label position="floating">Available from</ion-label>
+            <ion-datetime min="2019-01-01" max="2022-01-01" formControlName="dateFrom"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col size-sm="3">
+          <ion-item>
+            <ion-label position="floating">Available to</ion-label>
+            <ion-datetime min="2019-01-01" max="2022-01-01" formControlName="dateTo"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
 </ion-content>

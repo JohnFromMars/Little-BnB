@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/models/place';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-edit-offer',
@@ -11,6 +13,7 @@ import { Place } from 'src/app/models/place';
 })
 export class EditOfferPage implements OnInit {
   offer: Place;
+  form: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -27,7 +30,50 @@ export class EditOfferPage implements OnInit {
       }
       const placeId = paraMap.get('placeId');
       this.offer = this.placesService.getPlace(placeId);
+      // init the form
+      this.initForm();
     });
   }
 
+  /**
+   * create the form controller for input field, and set the default value from offer
+   */
+  initForm() {
+    this.form = new FormGroup({
+      title: new FormControl(this.offer.title, {
+        updateOn: 'change',
+        validators: [Validators.required]
+      }),
+      description: new FormControl(this.offer.description, {
+        updateOn: 'change',
+        validators: [Validators.required, Validators.maxLength(130)]
+      }),
+      price: new FormControl(this.offer.price, {
+        updateOn: 'change',
+        validators: [Validators.required, Validators.min(1)]
+      }),
+      dateFrom: new FormControl('2019-10-28', {
+        updateOn: 'change',
+        validators: [Validators.required]
+      }),
+      dateTo: new FormControl('2018-11-01', {
+        updateOn: 'change',
+        validators: [Validators.required]
+      })
+
+    });
+  }
+
+  /**
+   * This method get and save the updated offer value
+   */
+  onSubmitOffer() {
+    // if the form is invalid then return
+    if (!this.form.valid) {
+      return;
+    }
+
+    console.log('onSubmitOffer');
+    console.log(this.form);
+  }
 }
