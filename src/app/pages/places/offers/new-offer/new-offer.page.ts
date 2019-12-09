@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PlacesService } from 'src/app/services/places.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-new-offer',
@@ -10,7 +12,10 @@ export class NewOfferPage implements OnInit {
   // reactive form
   form: FormGroup;
 
-  constructor() { }
+  constructor(
+    private placeService: PlacesService,
+    private navController: NavController
+  ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -38,9 +43,27 @@ export class NewOfferPage implements OnInit {
   }
 
   /**
-   * create button
+   * create button 
+   * navigate back to offers page after adding the new place
    */
   onCreateOffer() {
+    // block invalid request
+    if (!this.form.valid) {
+      return;
+    }
+
     console.log(this.form);
+    this.placeService.addPlace(
+      this.form.get('title').value,
+      this.form.get('description').value,
+      this.form.get('price').value,
+      new Date(this.form.get('dateFrom').value),
+      new Date(this.form.get('dateTo').value)
+    );
+
+    // clear the form
+    this.form.reset();
+    // navigate back to offers page
+    this.navController.navigateBack('/places/tabs/offers');
   }
 }

@@ -23,6 +23,14 @@ export class DiscoverPage implements OnInit {
   }
 
   /**
+   * update the place list when view enter
+   */
+  ionViewWillEnter() {
+    this.loadedPlaces = this.placesService.getPlaces();
+    this.slicedPlaces = this.loadedPlaces.slice(1);
+  }
+
+  /**
    * Change the fiter data based on segment button
    */
   onChangeFilter(event: CustomEvent<SegmentChangeEventDetail>) {

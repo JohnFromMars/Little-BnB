@@ -8,7 +8,6 @@ export class BookingService {
 
   private bookings: Booking[] = [
     new Booking('x', 'p1', 'abc', 3, 'Manhadon House'),
-
   ]
 
   constructor() { }

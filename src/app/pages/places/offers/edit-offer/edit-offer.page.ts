@@ -52,11 +52,11 @@ export class EditOfferPage implements OnInit {
         updateOn: 'change',
         validators: [Validators.required, Validators.min(1)]
       }),
-      dateFrom: new FormControl('2019-10-28', {
+      dateFrom: new FormControl(this.offer.availableFrom.toISOString(), {
         updateOn: 'change',
         validators: [Validators.required]
       }),
-      dateTo: new FormControl('2018-11-01', {
+      dateTo: new FormControl(this.offer.availableTo.toISOString(), {
         updateOn: 'change',
         validators: [Validators.required]
       })

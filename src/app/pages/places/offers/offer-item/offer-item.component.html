@@ -6,11 +6,11 @@
     <h2>{{item.title}}</h2>
     <div class='offer-date'>
       <ion-icon class="space-left" name="calendar" color="tertiary"></ion-icon>
-      <ion-text class="space-left" color='primary'>{{getDummyDate() | date}}</ion-text>
+      <ion-text class="space-left" color='primary'>{{item.availableFrom | date}}</ion-text>
       <span class="space-left">
         to
         <ion-icon class="space-left" name="calendar" color="tertiary"></ion-icon>
-        <ion-text class="space-left" color='primary'>{{getDummyDate() | date}}</ion-text>
+        <ion-text class="space-left" color='primary'>{{item.availableTo | date}}</ion-text>
       </span>
     </div>
   </ion-label>
