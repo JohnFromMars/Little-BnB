@@ -1,34 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/models/place';
 import { SegmentChangeEventDetail } from '@ionic/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-discover',
   templateUrl: './discover.page.html',
   styleUrls: ['./discover.page.scss'],
 })
-export class DiscoverPage implements OnInit {
+export class DiscoverPage implements OnInit, OnDestroy {
   loadedPlaces: Place[];
   slicedPlaces: Place[];
-  constructor
-    // tslint:disable-next-line: space-before-function-paren
-    (
-      private placesService: PlacesService
-    ) { }
+  private subscription: Subscription;
 
+
+  constructor(
+    private placesService: PlacesService
+  ) { }
+
+  /**
+   * Subscribe the places service
+   */
   ngOnInit() {
-    this.loadedPlaces = this.placesService.getPlaces();
-    this.slicedPlaces = this.loadedPlaces.slice(1);
+    this.subscription = this.placesService.getPlaces().subscribe(
+      places => {
+        this.loadedPlaces = places;
+        this.slicedPlaces = places.slice(1);
+      }
+    );
+  }
+  /**
+   * Unsubscribe the places service when the componet is destroyed
+   */
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   /**
    * update the place list when view enter
    */
-  ionViewWillEnter() {
-    this.loadedPlaces = this.placesService.getPlaces();
-    this.slicedPlaces = this.loadedPlaces.slice(1);
-  }
+  // ionViewWillEnter() {
+  //   this.loadedPlaces = this.placesService.getPlaces();
+  //   this.slicedPlaces = this.loadedPlaces.slice(1);
+  // }
 
   /**
    * Change the fiter data based on segment button

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { PlacesService } from 'src/app/services/places.service';
 import { Place } from 'src/app/models/place';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -11,15 +12,23 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   templateUrl: './edit-offer.page.html',
   styleUrls: ['./edit-offer.page.scss'],
 })
-export class EditOfferPage implements OnInit {
+export class EditOfferPage implements OnInit, OnDestroy {
   offer: Place;
   form: FormGroup;
+  private sub: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private navController: NavController,
     private placesService: PlacesService
   ) { }
+
+  ngOnDestroy() {
+    // unsubscribe
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paraMap => {
@@ -29,7 +38,10 @@ export class EditOfferPage implements OnInit {
         return;
       }
       const placeId = paraMap.get('placeId');
-      this.offer = this.placesService.getPlace(placeId);
+      // subscribe the lates offer
+      this.sub = this.placesService.getPlace(placeId).subscribe(offer => {
+        this.offer = offer;
+      });
       // init the form
       this.initForm();
     });
